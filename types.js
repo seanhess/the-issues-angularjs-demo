@@ -8,12 +8,13 @@ Options = {
 Vote = {
   username: String
   option: String
-  date: Date
+  created: Date
 }
 
 Issue = {
   first: Option
   second: Option
   votes: [Vote]
+  created: Date
 }
 

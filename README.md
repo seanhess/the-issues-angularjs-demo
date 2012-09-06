@@ -25,3 +25,5 @@ How to do mongo id? Oh, it should come down a string from the server
 [x] resource
 [x] custom service
 
+[ ] filter / search drop down
+

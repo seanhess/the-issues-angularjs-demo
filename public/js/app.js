@@ -33,11 +33,9 @@ var app = angular.module('app', ['ngResource'], function($routeProvider) {
 
 
 
-// ISSUES
-
 function IssuesController($scope, Issues, Auth) {
 
-  $scope.issues = Issues.query()
+  $scope.issues = Issues.pollList(1000)
   $scope.auth = Auth
 
   $scope.create = function(firstOption, secondOption) {
@@ -49,7 +47,6 @@ function IssuesController($scope, Issues, Auth) {
 
 
 
-// ISSUE DETAILS
 
 function IssueDetailsController($scope, Issues, $routeParams, Auth) {
   $scope.issueId = $routeParams._id
@@ -89,12 +86,22 @@ function LoginController($scope, Auth) {
 
 
 
+
+
+
+
+
+
 /// FILTERS ///
 app.filter('ago', function() {
   return function(text) {
     return moment(text).fromNow()
   }
 })
+
+
+
+
 
 
 
@@ -109,6 +116,33 @@ app.factory('Issues', function($http, $resource, Auth) {
   Issues.vote = function(issue, vote, cb) {
     vote.username = Auth.username
     $http.post("/issues/" + issue._id + "/votes", vote).success(cb)
+  }
+
+  // polls the server for updates, and merges results into these
+  Issues.pollList = function(interval) {
+    var issues = Issues.query()
+
+    // for now, only support updates and adds
+    function fetch() {
+      newIssues = Issues.query(function() {
+        newIssues.forEach(function(newIssue) {
+          var matches = _.find(issues, function(issue) {
+            return (issue._id == newIssue._id)
+          })
+
+
+          if (matches)
+            _.extend(matches, newIssue)
+
+          else
+            issues.unshift(newIssue)
+        })
+      })
+    }
+
+    interval = setInterval(fetch, interval)
+
+    return issues
   }
 
   return Issues

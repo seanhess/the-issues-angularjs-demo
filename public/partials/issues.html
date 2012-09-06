@@ -16,7 +16,7 @@
 
   <div class="issues content">
     <h1>The Issues</h1>
-    <div class="issue" ng-repeat="issue in issues">
+    <div class="issue" ng-repeat="issue in issues | orderBy:'-created'">
       <a href="#/details/{{issue._id}}">
         <div class="first bar" colored-bar total="issue.first.votes" text="issue.first.name"></div>
         <span>VS</span> 
