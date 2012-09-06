@@ -9,14 +9,20 @@
 }
 
 .sidebar .login {
+  color: #DDD;
   padding: 20px;
-  background-color: #AAD;
+  background-color: #33A;
   margin-bottom: 20px;
 }
 
+.sidebar .login a {
+  color: #DDD;
+}
+
 .sidebar .new_issue{
+  color: #DDD;
   padding: 20px;
-  background-color: #AAD;
+  background-color: #33A;
 }
 
 .content {
@@ -34,7 +40,6 @@
 }
 
 .issues .issue .bar {
-  color: #FFF;
   display: inline-block;
   overflow: hidden;
   padding: 10px;
@@ -42,9 +47,11 @@
 
 .issues .issue .first {
   background-color: #3A3;
+  color: #FFF;
 }
 .issues .issue .second {
   background-color: #CCC;
+  color: #333;
 }
 
 
