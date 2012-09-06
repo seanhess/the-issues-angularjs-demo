@@ -19,8 +19,8 @@ How to do mongo id? Oh, it should come down a string from the server
 [x] Ability to vote
 
 [x] directive
-[ ] filter
-[ ] auto update instead of replace
+[x] filter
+[ ] auto update instead of replace (see real-time without reload)
 [x] jquery directive
 [x] resource
 [x] custom service

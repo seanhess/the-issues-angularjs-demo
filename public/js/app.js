@@ -53,13 +53,15 @@ function IssuesController($scope, Issues, Auth) {
 
 function IssueDetailsController($scope, Issues, $routeParams, Auth) {
   $scope.issueId = $routeParams._id
-  $scope.issue = Issues.get({_id: $routeParams._id})
   $scope.auth = Auth
 
+  $scope.load = function() {
+    $scope.issue = Issues.get({_id: $routeParams._id})
+  }
+
   $scope.vote = function(option) {
-    option.votes++
     Issues.vote($scope.issue, option, function() {
-      console.log("VOTED")
+      $scope.load()
     })
   }
 
@@ -67,6 +69,8 @@ function IssueDetailsController($scope, Issues, $routeParams, Auth) {
     Issues.remove({_id: $routeParams._id})
     window.location = "/"
   }
+
+  $scope.load()
 }
 
 

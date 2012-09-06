@@ -1,29 +1,31 @@
 
   <div class="sidebar">
     <ng-include src="'/partials/login.html'"></ng-include>
+    <div ng-click="remove()"><button>Delete Issue</button></div>
   </div>
 
-  <div class="content">
-    <h1><span>{{issue.first.name}}</span> VS <span>{{issue.second.name}}</span></h1>
-    <div pie-chart first="issue.first.votes" second="issue.second.votes"></div>
-    <h3 class="chart-label">{{issue.first.name}}</h3>
+  <div class="content issue">
+    <h1><span>{{issue.first.name}}</span> VS <span>{{issue.second.name}}</span></h1> 
 
-    <div class="castVote" ng-show="auth.loggedIn">
-      <h2>Vote</h2>
-      <button ng-click="vote(issue.first)">Vote {{issue.first.name}}</button>
-      <button ng-click="vote(issue.second)">Vote {{issue.second.name}}</button>
+    <div class="info">
+      <div pie-chart first="issue.first.votes" second="issue.second.votes"></div> <h3 class="chart-label">{{issue.first.name}}</h3>
+
+      <div class="castVote" ng-show="auth.loggedIn">
+        <button ng-click="vote(issue.first)">Vote {{issue.first.name}}</button>
+        <button ng-click="vote(issue.second)">Vote {{issue.second.name}}</button>
+      </div>
     </div>
 
-    <h2>{{issue.votes.length}} Votes</h2>
-    <table class="votes">
-      <tr><th>User</th><th>Voted</th><th>When</th></tr>
-      <tr class="vote" ng-repeat="vote in issue.votes">
-        <td>{{vote.username}}</td>
-        <td>{{vote.name}}</td>
-        <td>{{vote.date | ago}}</td>
-      </div>
-    </table>
+    <div class="votes">
+      <h2>{{issue.votes.length}} Votes</h2>
+      <table class="votes">
+        <tr><th>User</th><th>Voted</th><th>When</th></tr>
+        <tr class="vote" ng-repeat="vote in issue.votes | orderBy:'-date'">
+          <td>{{vote.username}}</td>
+          <td>{{vote.name}}</td>
+          <td>{{vote.date | ago}}</td>
+        </div>
+      </table>
+    </div>
 
-    <h2>Admin</h2>
-    <div ng-click="remove()"><button>Delete Issue</button></div>
   </div>
