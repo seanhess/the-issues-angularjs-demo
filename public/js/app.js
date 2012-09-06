@@ -38,7 +38,7 @@ function IssuesController($scope, Issues, Auth) {
   $scope.issues = Issues.pollList(1000)
   $scope.auth = Auth
 
-  $scope.create = function(firstOption, secondOption) {
+  $scope.create = function() {
     issue = {first: {name: $scope.firstOption}, second: {name: $scope.secondOption}}
     Issues.save(issue)
     $scope.issues = Issues.query()

@@ -140,16 +140,254 @@ Filters let you compose data binding. Assume your dates are in ISO format. We ca
 The Issues: Rendering the List
 ------------------------------
 
-* Bootstrapping (index.html)
-* Issues resource
-* IssuesController
-* ng-repeat
+We need to boostrap. (see index.html, app.js)
+
+We need to define a simple resource oriented service
+
+    app.factory('Issues', function($resource) {
+      Issues = $resource("/issues/:_id")
+      return Issues
+    })
+
+Here's our basic controller
+
+    function IssuesController($scope, Issues) {
+      $scope.issues = Issues.query()
+    }
+
+Now we can bind to the array
+
+    <div class="issue" ng-repeat="issue in issues">
+      {{issue.first.name}} VS {{issue.second.name}}
+    </div> 
+
+
 
 The Issues: Adding an Issue
 ---------------------------
 
-* Two-way binding on the form
-* $scope.create()
+We add a .create method on our scope
+
+    function IssuesController($scope, Issues) {
+      // ...
+      $scope.create = function() {
+        issue = {first: {name: $scope.firstOption}, second: {name: $scope.secondOption}}
+        Issues.save(issue)
+        $scope.issues = Issues.query()
+      }
+    }
+
+We can call it in our event handler
+
+    <div class="new_issue">
+      <h3>Add an Issue</h3>
+      <div><input placeholder="something" ng-model="firstOption"></div>
+      <div>VS</div>
+      <div><input placeholder="else" ng-model="secondOption"></div>
+      <div><button ng-click="create()">Create</div>
+    </div>
+
+
+The Issues: Custom Directive: Colored Bar
+-----------------------------------------
+
+We want to display a bar representing the number of votes. It's a custom widget used like this
+
+    <div class="first bar" colored-bar total="issue.first.votes" text="issue.first.name"></div>
+    <span>VS</span> 
+    <div class="second bar" colored-bar total="issue.second.votes" text="issue.second.name"></div>
+
+Here's how you define it. We use $watch so we can respond to binding changes. `element` is a jQuery element
+
+    module.directive('coloredBar', function() {
+      return {
+        link: function(scope, element, attrs) {
+          var INCREMENTAL_WIDTH = 20
+          var MIN_WIDTH = 30
+
+          scope.$watch(attrs.total, function(total) {
+            width = Math.max(total * INCREMENTAL_WIDTH, MIN_WIDTH)
+            element.css('width', width + 'px')
+          })
+
+          scope.$watch(attrs.text, function(text) {
+            element.text(text)
+          })
+        }
+      }
+    })
+
+
+
+The Issues: Custom Service: Auth
+--------------------------------
+
+We will abstract the authentication mechanism away. All we know is that the module has some methods and some properties to bind to (like username and loggedIn). 
+
+Inject the Auth service into our controller, and put it on the scope
+
+    function IssuesController($scope, Issues, Auth) {
+      // ...
+      $scope.auth = Auth
+      $scope.login = function() {
+        Auth.login($scope.newUsername)
+      }
+    })
+
+
+Allow the user to log in
+
+    <div><input placeholder="username" ng-model="newUsername"></div>
+    <div><button ng-click="login()">Login</button></div>
+
+Only show the new issue box if we are logged in. This will automatically show it if they login.
+
+    <div class="new_issue" ng-show="auth.loggedIn">
+
+The definition of the Auth service
+    
+    module.factory('Auth', function() {
+      Auth = {
+        username: localStorage.username,
+        login: function(username) {
+          localStorage.username = username
+          this.username = username
+          this.loggedIn = true
+        },
+        logout: function() {
+          localStorage.removeItem('username')
+          delete this.username
+          this.loggedIn = false
+        }
+      }
+      Auth.loggedIn = !!Auth.username
+      return Auth
+    })
+
+
+The Issues: Details page
+------------------------
+
+Add another route, a partial, and its controller. (Same as before)
+
+    $routeProvider.when('/details/:_id', {
+      templateUrl  : 'partials/issue.html',
+      controller : IssueDetailsController  
+    })
+
+
+Issue Details: Turning a jQuery plugin into a directive
+-------------------------------------------------------
+
+You have to include jquery before angular so it uses it instead of "jquery lite"
+
+We want to use a pie chart component! Let's make a directive
+
+    <div pie-chart percent="issue.first.percent"></div>
+
+In the directive code, we initialize the chart.
+
+    module.directive('pieChart', function() {
+      return {
+        link: function(scope, element, attrs) {
+          scope.$watch(attrs.percent, function(percent) {
+            element.data('percent', percent)
+            element.easyPieChart({
+              barColor: "#3A3",
+              trackColor: "#CCC",
+              scaleColor: false,
+              lineWidth: 30,
+              lineCap: "butt",
+              size: 150,
+              animate: 500
+            })
+          })
+        })
+      }
+    })
+
+Issue Details: Extend our Issues Service to Vote
+------------------------------------------------
+
+Adding a vote doesn't fit our resource model perfectly, so let's add a method. Notice that this depends on Auth!
+
+    module.factory('Issues', function($http, $resource, Auth) {
+      Issues = $resource("/issues/:_id")
+
+      Issues.vote = function(issue, vote, cb) {
+        vote.username = Auth.username
+        $http.post("/issues/" + issue._id + "/votes", vote).success(cb)
+      }
+
+      return Issues
+    }
+
+Now we can vote from our controller
+
+    $scope.vote = function(option) {
+      Issues.vote($scope.issue, option)
+    }
+
+    <div class="castVote">
+      <button ng-click="vote(issue.first)">Vote {{issue.first.name}}</button>
+      <button ng-click="vote(issue.second)">Vote {{issue.second.name}}</button>
+    </div>
+
+
+Issue Details: Using filters
+----------------------------
+
+Let's pipe the created date through our custom `ago` filter
+
+    module.filter('ago', function() {
+      return function(text) {
+        return moment(text).fromNow()
+      }
+    })
+
+    <td>{{vote.created | ago}}</td>
+
+Filters can take parameters. Let's use the built-in `orderBy` filter to order the votes on the details page.
+
+    <tr class="vote" ng-repeat="vote in issue.votes | orderBy:'-created'">
+
+
+
+Issue Details: Realtime Differential Updates
+--------------------------------------------
+
+We want a realtime app. When someone votes, let's update the voting results without re-rending everything.
+
+Instead of calling `Issues.get({_id: id})`, we will write a method that polls, and updates the original object.
+
+    // in Issues service
+    Issues.pollIssue = function(matching, interval) {
+      var issue = Issues.get(matching)
+
+      function fetch() {
+        newIssue = Issues.get(matching, function() {
+
+          // we are updating the object we returned from the first function
+          _.extend(issue, newIssue)
+        })
+      }
+
+      interval = setInterval(fetch, interval)
+
+      return issue
+    }
+
+So if our controller binds to the result of this, updates will always be applied differentially
+
+    // IssueDetailsController
+    $scope.issue = Issues.pollIssue({_id: id}, 1000)
+
+And only the bindings that have changed will be replaced
+
+    <div>First Votes: {{issue.first.votes}}</div>
+    <div>Second Votes: {{issue.second.votes}}</div>
+
+
 
 
 Concerns
