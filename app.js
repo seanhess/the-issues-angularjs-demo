@@ -3,7 +3,7 @@ var express = require('express')
   , mongolian = require('mongolian')
   , app = express.createServer()
 
-var MONGO_DB = process.env.MONGO_DB || 'mongodb://localhost/the-issues'
+var MONGO_DB = process.env.MONGOHQ_URL || 'mongodb://localhost/the-issues'
 var PORT = process.env.PORT || 2222
 
 var db = new mongolian(MONGO_DB)
