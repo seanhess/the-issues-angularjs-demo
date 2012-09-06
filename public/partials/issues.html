@@ -1,27 +1,9 @@
 <div class="main">
 
-  <div class="sidebar">
-
-    <ng-include src="'/partials/login.html'"></ng-include>
-
-    <div class="new_issue" ng-show="auth.loggedIn">
-      <h3>Add an Issue</h3>
-      <div><input placeholder="something" ng-model="firstOption"></div>
-      <div>VS</div>
-      <div><input placeholder="else" ng-model="secondOption"></div>
-      <div><button ng-click="create()">Create</div>
-    </div>
-
-  </div>
-
   <div class="issues content">
     <h1>The Issues</h1>
-    <div class="issue" ng-repeat="issue in issues | orderBy:'-created'">
-      <a href="#/details/{{issue._id}}">
-        <div class="first bar" colored-bar total="issue.first.votes" text="issue.first.name"></div>
-        <span>VS</span> 
-        <div class="second bar" colored-bar total="issue.second.votes" text="issue.second.name"></div>
-      </a>
+    <div class="issue" ng-repeat="issue in issues">
+      {{issue.first.name}} VS {{issue.second.name}}
     </div>
   </div>
 </div>
