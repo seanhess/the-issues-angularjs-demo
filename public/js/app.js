@@ -10,8 +10,13 @@
 var app = angular.module('app', ['ngResource'], function($routeProvider) {
 
   $routeProvider.when('/', {
-    templateUrl   : 'partials/issues.html',
+    templateUrl  : 'partials/issues.html',
     controller : IssuesController  
+  })
+
+  $routeProvider.when('/details/:_id', {
+    templateUrl  : 'partials/issue.html',
+    controller : IssueDetailsController  
   })
 
   $routeProvider.otherwise({ 
@@ -20,23 +25,26 @@ var app = angular.module('app', ['ngResource'], function($routeProvider) {
 
 })
 
-// use push state/html5 urls
-app.config(function($locationProvider) {  
-  $locationProvider.hashPrefix('')
-  $locationProvider.html5Mode(true)
-})
+
 
 
 // ISSUES SERVICE
 app.factory('Issues', function($http, $resource) {
-  return $resource("/issues/:id")
+  return $resource("/issues/:_id")
 })
+
+
+
+
+
+
 
 
 
 // ISSUES
 
 function IssuesController($scope, Issues) {
+  console.log("MAIN")
   $scope.pageTitle = 'hello world!'
 
   $scope.issues = Issues.query()
@@ -47,6 +55,21 @@ function IssuesController($scope, Issues) {
     $scope.issues = Issues.query()
   }
 };
+
+
+
+// ISSUE DETAILS
+
+function IssueDetailsController($scope, Issues, $routeParams) {
+  console.log("ISSUE DETAILS BABY!", $routeParams._id)
+  $scope.issueId = $routeParams._id
+  $scope.issue = Issues.get({_id: $routeParams._id}, function(d, asdf, booo) {
+    console.log("HI", $scope.issue)
+  })
+}
+
+
+
 
 
 

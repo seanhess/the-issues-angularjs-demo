@@ -10,7 +10,7 @@
 
   <div class="issues">
     <div class="issue" ng-repeat="issue in issues">
-      <a href="/issue/{{issue.id}}">
+      <a href="#/details/{{issue._id}}">
         <div class="first bar" colored-bar total="issue.firstVotes" text="issue.firstOption"></div>
         <span>VS</span> 
         <div class="second bar" colored-bar total="issue.secondVotes" text="issue.secondOption"></div>
