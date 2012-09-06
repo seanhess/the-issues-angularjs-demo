@@ -52,22 +52,16 @@ function IssueDetailsController($scope, Issues, $routeParams, Auth) {
   $scope.issueId = $routeParams._id
   $scope.auth = Auth
 
-  $scope.load = function() {
-    $scope.issue = Issues.get({_id: $routeParams._id})
-  }
+  $scope.issue = Issues.pollIssue({_id: $routeParams._id}, 1000)
 
   $scope.vote = function(option) {
-    Issues.vote($scope.issue, option, function() {
-      $scope.load()
-    })
+    Issues.vote($scope.issue, option)
   }
 
   $scope.remove = function() {
     Issues.remove({_id: $routeParams._id})
     window.location = "/"
   }
-
-  $scope.load()
 }
 
 
@@ -114,6 +108,7 @@ app.factory('Issues', function($http, $resource, Auth) {
   Issues = $resource("/issues/:_id")
 
   Issues.vote = function(issue, vote, cb) {
+    cb = cb || function() {}
     vote.username = Auth.username
     $http.post("/issues/" + issue._id + "/votes", vote).success(cb)
   }
@@ -144,6 +139,21 @@ app.factory('Issues', function($http, $resource, Auth) {
 
     return issues
   }
+
+  Issues.pollIssue = function(matching, interval) {
+    var issue = Issues.get(matching)
+
+    function fetch() {
+      newIssue = Issues.get(matching, function() {
+        _.extend(issue, newIssue)
+      })
+    }
+
+    interval = setInterval(fetch, interval)
+
+    return issue
+  }
+
 
   return Issues
 })
