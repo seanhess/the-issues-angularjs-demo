@@ -54,11 +54,6 @@
   text-align: center;
 }
 
-.votes td {
-  border: solid 1px #DDD;
-  padding: 3px;
-}
-
 
 .issue.content .info {
 }
@@ -68,3 +63,15 @@
   left: 300px;
   top: 0px;
 }
+
+
+table {
+  border-spacing:0;
+  border-collapse:collapse;
+}
+
+table td {
+  border: solid 1px #EEE;
+  padding: 5px;
+}
+
