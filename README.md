@@ -137,8 +137,14 @@ Filters let you compose data binding. Assume your dates are in ISO format. We ca
     <div class="date">{{post.created | ago}}</div>
 
 
-This Application
-----------------
+The Issues: Rendering the List
+------------------------------
+
+* Bootstrapping (index.html)
+* Issues resource
+* IssuesController
+* ng-repeat
+
 
 
 Concerns
