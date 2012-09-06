@@ -1,18 +1,17 @@
 {
-  "name":"app",
-  "version":"0.0.1",
-  "main":"app.js",
-  "engines":{
-    "node":"0.8.x",
-    "npm":"1.1.x"
+  "name": "app",
+  "version": "0.0.1",
+  "main": "app.js",
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
   },
-  "dependencies":{
-    "mongoose":"2.5.13",
-    "express":"2.5.8"
+  "dependencies": {
+    "express": "2.5.8",
+    "mongolian": "~0.1.18"
   },
-  "devDependencies":{
-    "request":"2.9.153"
+  "devDependencies": {
+    "request": "2.9.153"
   },
-  "scripts":{
-  }
+  "scripts": {}
 }
