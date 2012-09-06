@@ -16,6 +16,7 @@
 
   <div class="issues content">
     <h1>The Issues</h1>
+    <p><a href="http://www.youtube.com/watch?v=5Y682WUqxik">We're talking about the issues but we're keeping it funky</a></p>
     <div class="issue" ng-repeat="issue in issues | orderBy:'-created'">
       <a href="#/details/{{issue._id}}">
         <div class="first bar" colored-bar total="issue.first.votes" text="issue.first.name"></div>
