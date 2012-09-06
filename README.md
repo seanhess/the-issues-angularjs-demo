@@ -145,6 +145,11 @@ The Issues: Rendering the List
 * IssuesController
 * ng-repeat
 
+The Issues: Adding an Issue
+---------------------------
+
+* Two-way binding on the form
+* $scope.create()
 
 
 Concerns
