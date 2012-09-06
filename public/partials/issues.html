@@ -2,10 +2,19 @@
   <h1>The Issues</h1>
 
   <div class="sidebar">
-    <div><input placeholder="something" ng-model="firstOption"></div>
-    <div>VS</div>
-    <div><input placeholder="else" ng-model="secondOption"></div>
-    <div><button ng-click="create()">Add Issue</button></div>
+    <div class="new_issue" ng-show="username">
+      <div>Welcome {{username}}. <a ng-click="logout()">Logout</a></div>
+      <h3>Add an Issue</h3>
+      <div><input placeholder="something" ng-model="firstOption"></div>
+      <div>VS</div>
+      <div><input placeholder="else" ng-model="secondOption"></div>
+      <div><button ng-click="create()">Create</div>
+    </div>
+
+    <div class="login" ng-hide="username">
+      <div><input placeholder="username" ng-model="newUsername"></div>
+      <div><button ng-click="login()">Login</button></div>
+    </div>
   </div>
 
   <div class="issues">

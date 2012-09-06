@@ -28,9 +28,23 @@ var app = angular.module('app', ['ngResource'], function($routeProvider) {
 
 
 
-// ISSUES SERVICE
+//// SERVICES ////
 app.factory('Issues', function($http, $resource) {
   return $resource("/issues/:_id")
+})
+
+app.factory('Login', function() {
+  return {
+    username: function() {
+      return localStorage.username
+    },
+    login: function(username) {
+      localStorage.username = username
+    },
+    logout: function() {
+      localStorage.removeItem('username')
+    }
+  }
 })
 
 
@@ -43,16 +57,25 @@ app.factory('Issues', function($http, $resource) {
 
 // ISSUES
 
-function IssuesController($scope, Issues) {
-  console.log("MAIN")
-  $scope.pageTitle = 'hello world!'
-
+function IssuesController($scope, Issues, Login) {
+  
   $scope.issues = Issues.query()
+  $scope.username = Login.username()
 
   $scope.create = function(firstOption, secondOption) {
     issue = {firstOption: $scope.firstOption, secondOption: $scope.secondOption}
     Issues.save(issue)
     $scope.issues = Issues.query()
+  }
+
+  $scope.login = function() {
+    Login.login($scope.newUsername)
+    $scope.username = Login.username()
+  }
+
+  $scope.logout = function() {
+    Login.logout()
+    $scope.username = Login.username()
   }
 };
 
@@ -61,11 +84,8 @@ function IssuesController($scope, Issues) {
 // ISSUE DETAILS
 
 function IssueDetailsController($scope, Issues, $routeParams) {
-  console.log("ISSUE DETAILS BABY!", $routeParams._id)
   $scope.issueId = $routeParams._id
-  $scope.issue = Issues.get({_id: $routeParams._id}, function(d, asdf, booo) {
-    console.log("HI", $scope.issue)
-  })
+  $scope.issue = Issues.get({_id: $routeParams._id})
 }
 
 

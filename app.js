@@ -12,6 +12,8 @@ ObjectId.prototype.toJSON = ObjectId.prototype.toString
 
 app.configure('development', function() {
   app.use(express.bodyParser())
+  app.use(express.cookieParser())
+  app.use(express.session({secret: "sooo secret"}))
   app.use(express.static(__dirname + '/public'))
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }))
 });
@@ -45,6 +47,18 @@ app.post("/issues", function(req, res) {
   collection.save(issue, function(err, data) {
     res.send(200)
   })
+})
+
+
+
+
+app.post("/login/:username", function(req, res) {
+  req.session.username = req.param.username
+  res.send(200)
+})
+
+app.get("/login", function(req, res) {
+  res.send(req.session.username)
 })
 
 
