@@ -70,6 +70,7 @@ function LoginController($scope, Auth) {
   $scope.auth = Auth
 
   $scope.login = function() {
+    if (!$scope.newUsername) return alert("Please enter a username")
     Auth.login($scope.newUsername)
   }
 
