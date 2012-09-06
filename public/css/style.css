@@ -1,0 +1,40 @@
+.main {
+  position: relative;
+}
+
+.sidebar {
+  width: 160px;
+  position: absolute;
+  background-color: #AAD;
+  padding: 20px;
+  text-align: center;
+}
+
+.issues {
+  position: relative;
+  left: 200px;
+  padding: 20px;
+}
+
+
+.issues .issue {
+  margin: 10px;
+}
+
+.issues .issue a {
+  text-decoration: none;
+}
+
+.issues .issue .bar {
+  color: #FFF;
+  display: inline-block;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.issues .issue .first {
+  background-color: #A00;
+}
+.issues .issue .second {
+  background-color: #0A0;
+}

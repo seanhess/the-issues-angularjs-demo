@@ -1,0 +1,20 @@
+<div class="main">
+  <h1>The Issues</h1>
+
+  <div class="sidebar">
+    <div><input placeholder="something" ng-model="firstOption"></div>
+    <div>VS</div>
+    <div><input placeholder="else" ng-model="secondOption"></div>
+    <div><button ng-click="create()">Add Issue</button></div>
+  </div>
+
+  <div class="issues">
+    <div class="issue" ng-repeat="issue in issues">
+      <a href="/issue/{{issue.id}}">
+        <div class="first bar" colored-bar total="issue.firstVotes" text="issue.firstOption"></div>
+        <span>VS</span> 
+        <div class="second bar" colored-bar total="issue.secondVotes" text="issue.secondOption"></div>
+      </a>
+    </div>
+  </div>
+</div>
