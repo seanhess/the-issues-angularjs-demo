@@ -15,7 +15,7 @@ Derived properties:
 How to do mongo id? Oh, it should come down a string from the server
 
 
-[ ] Identify yourself
+[x] Identify yourself
 [ ] Ability to vote
 
 [x] directive

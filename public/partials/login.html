@@ -1,0 +1,12 @@
+
+
+    <div class="login" ng-controller="LoginController">
+      <div class="loggedIn" ng-show="auth.loggedIn">
+        <span>Welcome {{auth.username}}. </span>
+        <a ng-click="logout()">Logout</a>
+      </div>
+      <div class="loggedOut" ng-hide="auth.loggedIn">
+        <div><input placeholder="username" ng-model="newUsername"></div>
+        <div><button ng-click="login()">Login</button></div>
+      </div>
+    </div>

@@ -40,12 +40,31 @@ app.get("/issues/:id", function(req, res) {
   })
 })
 
+app.del("/issues/:id", function(req, res) {
+  collection.remove({_id: new ObjectId(req.params.id)}, function(err) {
+    res.send(200)
+  })
+})
+
 app.post("/issues", function(req, res) {
   var issue = req.body
-  issue.firstVotes = 0
-  issue.secondVotes = 0
+  issue.first.votes = 0
+  issue.second.votes = 0
+  issue.votes = []
   collection.save(issue, function(err, data) {
     res.send(200)
+  })
+})
+
+app.post("/issues/:id/votes", function(req, res) {
+  var vote = req.body
+  collection.findOne({_id: new ObjectId(req.params.id)}, function(err, issue) {
+    issue.votes.push(vote)
+    var option = (issue.first.name == vote.name) ? issue.first : issue.second
+    option.votes++
+    collection.save(issue, function(err, issue) {
+      res.send(200)
+    })
   })
 })
 

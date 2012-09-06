@@ -1,8 +1,19 @@
 
-Issue = {
-  firstOption: String
-  firstTotal: Number
-  secondOption: String
-  secondTotal: Number
-  votes: []
+
+Options = {
+  name: String
+  votes: Number
 }
+
+Vote = {
+  username: String
+  option: String
+  date: Date
+}
+
+Issue = {
+  first: Option
+  second: Option
+  votes: [Vote]
+}
+

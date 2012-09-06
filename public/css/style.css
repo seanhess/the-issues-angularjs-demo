@@ -5,17 +5,25 @@
 .sidebar {
   width: 160px;
   position: absolute;
-  background-color: #AAD;
-  padding: 20px;
   text-align: center;
 }
 
-.issues {
-  position: relative;
-  left: 200px;
+.sidebar .login {
   padding: 20px;
+  background-color: #AAD;
+  margin-bottom: 20px;
 }
 
+.sidebar .new_issue{
+  padding: 20px;
+  background-color: #AAD;
+}
+
+.content {
+  position: relative;
+  left: 200px;
+  padding-left: 20px;
+}
 
 .issues .issue {
   margin: 10px;
@@ -33,8 +41,15 @@
 }
 
 .issues .issue .first {
-  background-color: #A00;
+  background-color: #3A3;
 }
 .issues .issue .second {
-  background-color: #0A0;
+  background-color: #CCC;
+}
+
+
+
+.chart-label {
+  width: 150px;
+  text-align: center;
 }

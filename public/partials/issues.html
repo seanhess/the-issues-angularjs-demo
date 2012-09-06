@@ -1,9 +1,10 @@
 <div class="main">
-  <h1>The Issues</h1>
 
   <div class="sidebar">
-    <div class="new_issue" ng-show="username">
-      <div>Welcome {{username}}. <a ng-click="logout()">Logout</a></div>
+
+    <ng-include src="'/partials/login.html'"></ng-include>
+
+    <div class="new_issue" ng-show="auth.loggedIn">
       <h3>Add an Issue</h3>
       <div><input placeholder="something" ng-model="firstOption"></div>
       <div>VS</div>
@@ -11,18 +12,15 @@
       <div><button ng-click="create()">Create</div>
     </div>
 
-    <div class="login" ng-hide="username">
-      <div><input placeholder="username" ng-model="newUsername"></div>
-      <div><button ng-click="login()">Login</button></div>
-    </div>
   </div>
 
-  <div class="issues">
+  <div class="issues content">
+    <h1>The Issues</h1>
     <div class="issue" ng-repeat="issue in issues">
       <a href="#/details/{{issue._id}}">
-        <div class="first bar" colored-bar total="issue.firstVotes" text="issue.firstOption"></div>
+        <div class="first bar" colored-bar total="issue.first.votes" text="issue.first.name"></div>
         <span>VS</span> 
-        <div class="second bar" colored-bar total="issue.secondVotes" text="issue.secondOption"></div>
+        <div class="second bar" colored-bar total="issue.second.votes" text="issue.second.name"></div>
       </a>
     </div>
   </div>
