@@ -1,7 +1,10 @@
 the-issues
 ==========
 
-This vs That demo application written in AngularJS. This was prepared for a UtahJS presentation. This Readme is equivalent to slide deck
+This vs That demo application written in AngularJS. This was prepared for a UtahJS presentation. This Readme is equivalent to slide deck.
+
+Demo: http://the-issues.herokuapp.com/
+
 
 About Me
 --------
