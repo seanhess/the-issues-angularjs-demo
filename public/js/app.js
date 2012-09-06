@@ -28,38 +28,6 @@ var app = angular.module('app', ['ngResource'], function($routeProvider) {
 
 
 
-//// SERVICES ////
-app.factory('Issues', function($http, $resource) {
-  Issues = $resource("/issues/:_id")
-
-  Issues.vote = function(issue, vote, cb) {
-    $http.post("/issues/" + issue._id + "/votes", vote).success(cb)
-  }
-
-  return Issues
-})
-
-app.factory('Auth', function() {
-  Auth = {
-    username: localStorage.username,
-    login: function(username) {
-      localStorage.username = username
-      this.username = username
-      this.loggedIn = true
-    },
-    logout: function() {
-      localStorage.removeItem('username')
-      delete this.username
-      this.loggedIn = false
-    }
-  }
-  Auth.loggedIn = !!Auth.username
-  return Auth
-})
-
-
-
-
 
 
 
@@ -117,7 +85,48 @@ function LoginController($scope, Auth) {
 
 
 
+/// FILTERS ///
+app.filter('ago', function() {
+  return function(text) {
+    return moment(text).fromNow()
+  }
+})
 
+
+
+
+
+
+
+//// SERVICES ////
+app.factory('Issues', function($http, $resource, Auth) {
+  Issues = $resource("/issues/:_id")
+
+  Issues.vote = function(issue, vote, cb) {
+    vote.username = Auth.username
+    $http.post("/issues/" + issue._id + "/votes", vote).success(cb)
+  }
+
+  return Issues
+})
+
+app.factory('Auth', function() {
+  Auth = {
+    username: localStorage.username,
+    login: function(username) {
+      localStorage.username = username
+      this.username = username
+      this.loggedIn = true
+    },
+    logout: function() {
+      localStorage.removeItem('username')
+      delete this.username
+      this.loggedIn = false
+    }
+  }
+  Auth.loggedIn = !!Auth.username
+  return Auth
+})
 
 
 

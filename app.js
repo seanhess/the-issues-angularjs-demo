@@ -58,6 +58,7 @@ app.post("/issues", function(req, res) {
 
 app.post("/issues/:id/votes", function(req, res) {
   var vote = req.body
+  vote.date = new Date()
   collection.findOne({_id: new ObjectId(req.params.id)}, function(err, issue) {
     issue.votes.push(vote)
     var option = (issue.first.name == vote.name) ? issue.first : issue.second

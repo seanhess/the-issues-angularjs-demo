@@ -16,12 +16,12 @@ How to do mongo id? Oh, it should come down a string from the server
 
 
 [x] Identify yourself
-[ ] Ability to vote
+[x] Ability to vote
 
 [x] directive
 [ ] filter
-[ ] jquery directive
-[x] resource
-[ ] custom service
 [ ] auto update instead of replace
+[x] jquery directive
+[x] resource
+[x] custom service
 

@@ -15,9 +15,15 @@
     </div>
 
     <h2>{{issue.votes.length}} Votes</h2>
-    <div class="vote" ng-repeat="vote in issue.votes">
-      hi
-    </div>
+    <table class="votes">
+      <tr><th>User</th><th>Voted</th><th>When</th></tr>
+      <tr class="vote" ng-repeat="vote in issue.votes">
+        <td>{{vote.username}}</td>
+        <td>{{vote.name}}</td>
+        <td>{{vote.date | ago}}</td>
+      </div>
+    </table>
 
+    <h2>Admin</h2>
     <div ng-click="remove()"><button>Delete Issue</button></div>
   </div>
