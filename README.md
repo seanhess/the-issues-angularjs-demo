@@ -403,4 +403,9 @@ Concerns
 * Others?
 
 
+Other Resources
+---------------
+* [AngularJS](http://angularjs.org/)
+* [Projects Built With AngularJS](http://builtwith.angularjs.org/)
+* [AngularJS Tutorial](http://docs.angularjs.org/tutorial/)
 
