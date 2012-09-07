@@ -106,7 +106,7 @@ app.filter('ago', function() {
 
 //// SERVICES ////
 app.factory('Issues', function($http, $resource, Auth) {
-  Issues = $resource("/issues/:_id")
+  var Issues = $resource("/issues/:_id")
 
   Issues.vote = function(issue, vote, cb) {
     cb = cb || function() {}
@@ -160,7 +160,7 @@ app.factory('Issues', function($http, $resource, Auth) {
 })
 
 app.factory('Auth', function() {
-  Auth = {
+  var Auth = {
     username: localStorage.username,
     login: function(username) {
       localStorage.username = username
