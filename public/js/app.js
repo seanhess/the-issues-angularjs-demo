@@ -35,13 +35,15 @@ var app = angular.module('app', ['ngResource'], function($routeProvider) {
 
 function IssuesController($scope, Issues, Auth) {
 
+  // If you didn't want realtime updates, you would use Issues.query()
   $scope.issues = Issues.pollList(1000)
   $scope.auth = Auth
 
   $scope.create = function() {
     issue = {first: {name: $scope.firstOption}, second: {name: $scope.secondOption}}
-    Issues.save(issue)
-    $scope.issues = Issues.query()
+    Issues.save(issue, function() {
+      $scope.issues = Issues.query()
+    })
   }
 };
 
@@ -52,6 +54,7 @@ function IssueDetailsController($scope, Issues, $routeParams, Auth) {
   $scope.issueId = $routeParams._id
   $scope.auth = Auth
 
+  // If you didn't want realtime updates, you would use Issues.get({_id:...})
   $scope.issue = Issues.pollIssue({_id: $routeParams._id}, 1000)
 
   $scope.vote = function(option) {
