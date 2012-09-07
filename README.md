@@ -10,7 +10,6 @@ About Me
 --------
 
 * CTO and Cofounder of i.TV
-* Years of consulting
 * http://seanhess.github.com
 
 Why Angular
@@ -408,4 +407,5 @@ Other Resources
 * [AngularJS](http://angularjs.org/)
 * [Projects Built With AngularJS](http://builtwith.angularjs.org/)
 * [AngularJS Tutorial](http://docs.angularjs.org/tutorial/)
+* [Google Group](https://groups.google.com/forum/?fromgroups#!forum/angular)
 
