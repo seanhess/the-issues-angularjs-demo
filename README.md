@@ -4,6 +4,7 @@ The Issues: An AngularJS Demo Application
 This vs That demo application written in AngularJS. This was prepared for a UtahJS presentation. This Readme is equivalent to slide deck.
 
 Demo: http://the-issues.herokuapp.com/
+
 Discuss: http://news.ycombinator.com/item?id=4488847
 
 About Me
