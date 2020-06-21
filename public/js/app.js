@@ -7,11 +7,11 @@
 
 // ROUTER / MAIN MODULE
 
-var app = angular.module('app', ['ngResource'], function($routeProvider) {
+var app = angular.module('app', ['ngResource', 'controllers'], function($routeProvider) {
 
   $routeProvider.when('/', {
     templateUrl  : 'partials/issues.html',
-    controller : IssuesController  
+    controller : "IssuesController"
   })
 
   $routeProvider.when('/details/:_id', {
@@ -29,11 +29,11 @@ var app = angular.module('app', ['ngResource'], function($routeProvider) {
 
 
 
+angular.module('controllers', [])
 
+angular.module('controllers').controller("IssuesController", function($scope, Issues, Auth) {
 
-
-
-function IssuesController($scope, Issues, Auth) {
+  console.log("ISSUES")
 
   // If you didn't want realtime updates, you would use Issues.query()
   $scope.issues = Issues.pollList(1000)
@@ -45,7 +45,7 @@ function IssuesController($scope, Issues, Auth) {
       $scope.issues = Issues.query()
     })
   }
-};
+});
 
 
 
